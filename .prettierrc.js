@@ -1,5 +1,5 @@
 module.exports = {
-  
+
   // 括号内部不要出现空格
   bracketSpacing: true,
   // 行结束符使用 Unix 格式
