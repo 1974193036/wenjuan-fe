@@ -1,8 +1,10 @@
 import React, { FC, useState } from 'react'
-import styles from './List.module.scss'
+import styles from './common.module.scss'
 import QuestionCard from '../../components/QuestionCard'
 // import { useSearchParams } from 'react-router-dom'
 import { useTitle } from 'ahooks'
+import { Typography, Spin, Empty } from 'antd'
+const { Title } = Typography
 
 const rowQuestionList = [
   {
@@ -49,17 +51,18 @@ const List: FC = () => {
     <>
       <div className={styles.header}>
         <div className={styles.left}>
-          <h3>我的问卷</h3>
+          <Title level={3}>我的问卷</Title>
         </div>
         <div className={styles.right}>搜索</div>
       </div>
       <div className={styles.content}>
-        {questionList.map((item) => {
-          const { _id } = item
-          return <QuestionCard key={_id} {...item} />
-        })}
+        {questionList.length > 0 &&
+          questionList.map((item) => {
+            const { _id } = item
+            return <QuestionCard key={_id} {...item} />
+          })}
       </div>
-      <div className={styles.footer}>List page footer</div>
+      <div className={styles.footer}>上滑加载更多</div>
     </>
   )
 }
