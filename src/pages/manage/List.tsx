@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react'
 import styles from './common.module.scss'
 import QuestionCard from '../../components/QuestionCard'
 // import { useSearchParams } from 'react-router-dom'
+import ListSearch from '../../components/ListSearch'
 import { useTitle } from 'ahooks'
 import { Typography, Spin, Empty } from 'antd'
 const { Title } = Typography
@@ -53,7 +54,9 @@ const List: FC = () => {
         <div className={styles.left}>
           <Title level={3}>我的问卷</Title>
         </div>
-        <div className={styles.right}>搜索</div>
+        <div className={styles.right}>
+          <ListSearch />
+        </div>
       </div>
       <div className={styles.content}>
         {questionList.length > 0 &&
