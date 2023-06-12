@@ -13,15 +13,6 @@ const Home: FC = () => {
   // }
 
   return (
-    // <div>
-    //   <p>Home</p>
-    //   <div>
-    //     <Button type="primary" onClick={login}>
-    //       登录
-    //     </Button>
-    //     <Link to="/register">注册</Link>
-    //   </div>
-    // </div>
     <div className={styles.container}>
       <div className={styles.info}>
         <Title>问卷调查 | 在线投票</Title>

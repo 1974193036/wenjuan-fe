@@ -119,6 +119,7 @@ const Trash: FC = () => {
           rowSelection={{
             type: 'checkbox',
             hideSelectAll: false,
+            selectedRowKeys: selectedIds,
             onChange: (selectedRowKeys) => {
               // console.log(selectedRowKeys)
               setSelectedIds(selectedRowKeys as string[])

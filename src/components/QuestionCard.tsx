@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react'
 import styles from './QuestionCard.module.scss'
 import { useNavigate, Link } from 'react-router-dom'
-import { Button, Space, Divider, Tag, Popconfirm, Modal, message } from 'antd'
+import { Button, Space, Divider, Tag, Popconfirm, Modal } from 'antd'
 import {
   EditOutlined,
   LineChartOutlined,
