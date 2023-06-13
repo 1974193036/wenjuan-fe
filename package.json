@@ -13,8 +13,10 @@
     "@types/react-dom": "^18.0.11",
     "ahooks": "^3.7.6",
     "antd": "^5.4.6",
+    "axios": "^1.4.0",
     "classnames": "^2.3.2",
     "immer": "^9.0.21",
+    "mockjs": "^1.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
@@ -25,9 +27,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject",
     "lint": "eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix",
     "prepare": "husky install"
@@ -53,6 +55,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.6.1",
     "@commitlint/config-conventional": "^17.6.1",
+    "@craco/craco": "^7.1.0",
     "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.59.1",
     "@typescript-eslint/parser": "^5.59.1",
