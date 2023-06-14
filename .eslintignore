@@ -15,3 +15,4 @@ mock
 /bin
 Dockerfile
 commitlint.config.js
+craco.config.js

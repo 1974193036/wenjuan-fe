@@ -1,53 +1,35 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import styles from './common.module.scss'
-import QuestionCard from '../../components/QuestionCard'
-// import { useSearchParams } from 'react-router-dom'
-import ListSearch from '../../components/ListSearch'
+import QuestionCard from '@/components/QuestionCard'
+import ListSearch from '@/components/ListSearch'
 import { useTitle } from 'ahooks'
-import { Typography, Spin, Empty } from 'antd'
+import { Typography, Spin } from 'antd'
+import { useLoadQuestionListData } from '@/hooks/useLoadQuestionListData'
 const { Title } = Typography
 
-const rowQuestionList = [
-  {
-    _id: 'q1',
-    title: '问卷1',
-    isPublished: false,
-    isStar: false,
-    answerCount: 5,
-    createAt: '4月27日 15:16'
-  },
-  {
-    _id: 'q2',
-    title: '问卷2',
-    isPublished: true,
-    isStar: true,
-    answerCount: 3,
-    createAt: '4月28日 15:16'
-  },
-  {
-    _id: 'q3',
-    title: '问卷3',
-    isPublished: false,
-    isStar: false,
-    answerCount: 15,
-    createAt: '4月29日 15:16'
-  },
-  {
-    _id: 'q4',
-    title: '问卷4',
-    isPublished: true,
-    isStar: true,
-    answerCount: 25,
-    createAt: '4月30日 15:16'
-  }
-]
+type ListItemType = {
+  _id: string
+  title: string
+  isPublished: boolean
+  isStar: boolean
+  answerCount: number
+  createdAt: string
+  isDeleted: boolean
+}
 
 const List: FC = () => {
   useTitle('小慕问卷 - 我的问卷')
-  // const [usp] = useSearchParams()
-  // console.log(usp.get('keyword'))
 
-  const [questionList, setQuestionList] = useState(rowQuestionList)
+  // 改造成useRequest
+  const { loading, data } = useLoadQuestionListData()
+
+  let list: ListItemType[] = []
+  let total = 0
+  if (data) {
+    list = data.list
+    total = data.total
+  }
+
   return (
     <>
       <div className={styles.header}>
@@ -59,13 +41,20 @@ const List: FC = () => {
         </div>
       </div>
       <div className={styles.content}>
-        {questionList.length > 0 &&
-          questionList.map((item) => {
-            const { _id } = item
-            return <QuestionCard key={_id} {...item} />
+        {loading && (
+          <div style={{ textAlign: 'center' }}>
+            <Spin></Spin>
+          </div>
+        )}
+        {/* 问卷列表 */}
+        {!loading &&
+          list.length > 0 &&
+          list.map((q) => {
+            const { _id } = q
+            return <QuestionCard key={_id} {...q} />
           })}
       </div>
-      <div className={styles.footer}>上滑加载更多</div>
+      <div className={styles.footer}>上滑加载更多 -- 共 {total} 条数据</div>
     </>
   )
 }

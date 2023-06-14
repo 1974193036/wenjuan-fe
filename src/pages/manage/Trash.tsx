@@ -4,48 +4,32 @@ import styles from './common.module.scss'
 import { Typography, Spin, Empty, Button, Space, Table, Tag, Modal } from 'antd'
 import ListSearch from '../../components/ListSearch'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
+import { useLoadQuestionListData } from '@/hooks/useLoadQuestionListData'
 const { Title } = Typography
 const { confirm } = Modal
 
-const rowQuestionList = [
-  {
-    _id: 'q1',
-    title: '问卷1',
-    isPublished: false,
-    isStar: false,
-    answerCount: 5,
-    createAt: '4月27日 15:16'
-  },
-  {
-    _id: 'q2',
-    title: '问卷2',
-    isPublished: true,
-    isStar: true,
-    answerCount: 3,
-    createAt: '4月28日 15:16'
-  },
-  {
-    _id: 'q3',
-    title: '问卷3',
-    isPublished: false,
-    isStar: false,
-    answerCount: 15,
-    createAt: '4月29日 15:16'
-  },
-  {
-    _id: 'q4',
-    title: '问卷4',
-    isPublished: true,
-    isStar: true,
-    answerCount: 25,
-    createAt: '4月30日 15:16'
-  }
-]
+type ListItemType = {
+  _id: string
+  title: string
+  isPublished: boolean
+  isStar: boolean
+  answerCount: number
+  createdAt: string
+  isDeleted: boolean
+}
 
 const Trash: FC = () => {
   useTitle('小慕问卷 - 回收站')
 
-  const [questionList, setQuestionList] = useState(rowQuestionList)
+  // 改造成useRequest
+  const { loading, data } = useLoadQuestionListData({ isDeleted: true })
+
+  let list: ListItemType[] = []
+  let total = 0
+  if (data) {
+    list = data.list
+    total = data.total
+  }
 
   // 记录选中的 id
   const [selectedIds, setSelectedIds] = useState<string[]>([])
@@ -112,7 +96,7 @@ const Trash: FC = () => {
       </div>
       <div style={{ border: '1px solid #e8e8e8' }}>
         <Table
-          dataSource={rowQuestionList}
+          dataSource={list}
           columns={tableColumns}
           pagination={false}
           rowKey={(q) => q._id}
@@ -141,10 +125,15 @@ const Trash: FC = () => {
         </div>
       </div>
       <div className={styles.content}>
-        {questionList.length === 0 && <Empty description="暂无数据" />}
-        {questionList.length > 0 && TableElem}
+        {loading && (
+          <div style={{ textAlign: 'center' }}>
+            <Spin></Spin>
+          </div>
+        )}
+        {!loading && list.length === 0 && <Empty description="暂无数据" />}
+        {list.length > 0 && TableElem}
       </div>
-      <div className={styles.footer}>分页</div>
+      <div className={styles.footer}>分页 {total}</div>
     </>
   )
 }

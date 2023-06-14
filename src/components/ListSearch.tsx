@@ -24,7 +24,7 @@ const ListSearch = () => {
 
   // 获取url参数，并设置到输入框
   useEffect(() => {
-    console.log(usp.get(LIST_SEARCH_PARAM_KEY))
+    // console.log(usp.get(LIST_SEARCH_PARAM_KEY))
     const value = usp.get(LIST_SEARCH_PARAM_KEY) || ''
     setValue(value)
   }, [usp])

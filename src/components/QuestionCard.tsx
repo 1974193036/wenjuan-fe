@@ -17,13 +17,14 @@ type PropsType = {
   isPublished: boolean
   isStar: boolean
   answerCount: number
-  createAt: string
+  createdAt: string
+  isDeleted: boolean
 }
 
 const { confirm } = Modal
 
 const QuestionCard: FC<PropsType> = (props) => {
-  const { _id, title, isPublished, isStar, answerCount, createAt } = props
+  const { _id, title, isPublished, isStar, answerCount, createdAt } = props
 
   const nav = useNavigate()
 
@@ -68,7 +69,7 @@ const QuestionCard: FC<PropsType> = (props) => {
           <Space>
             {isPublished ? <Tag color="processing">已发布</Tag> : <Tag>未发布</Tag>}
             <span>答卷:{answerCount}</span>
-            <span>{createAt}</span>
+            <span>{createdAt}</span>
           </Space>
         </div>
       </div>
