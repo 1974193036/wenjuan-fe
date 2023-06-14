@@ -2,9 +2,10 @@ import { useTitle } from 'ahooks'
 import React, { FC, useState } from 'react'
 import styles from './common.module.scss'
 import { Typography, Spin, Empty, Button, Space, Table, Tag, Modal } from 'antd'
-import ListSearch from '../../components/ListSearch'
+import ListSearch from '@/components/ListSearch'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { useLoadQuestionListData } from '@/hooks/useLoadQuestionListData'
+import ListPagination from '@/components/ListPagination'
 const { Title } = Typography
 const { confirm } = Modal
 
@@ -133,7 +134,9 @@ const Trash: FC = () => {
         {!loading && list.length === 0 && <Empty description="暂无数据" />}
         {list.length > 0 && TableElem}
       </div>
-      <div className={styles.footer}>分页 {total}</div>
+      <div className={styles.footer}>
+        <ListPagination total={total} />
+      </div>
     </>
   )
 }

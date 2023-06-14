@@ -5,6 +5,7 @@ import { Typography, Spin, Empty } from 'antd'
 import QuestionCard from '@/components/QuestionCard'
 import ListSearch from '@/components/ListSearch'
 import { useLoadQuestionListData } from '@/hooks/useLoadQuestionListData'
+import ListPagination from '@/components/ListPagination'
 const { Title } = Typography
 
 type ListItemType = {
@@ -55,7 +56,9 @@ const Star: FC = () => {
             return <QuestionCard key={_id} {...q} />
           })}
       </div>
-      <div className={styles.footer}>分页 {total}</div>
+      <div className={styles.footer}>
+        <ListPagination total={total} />
+      </div>
     </>
   )
 }
