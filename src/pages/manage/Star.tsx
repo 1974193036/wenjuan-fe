@@ -49,8 +49,7 @@ const Star: FC = () => {
         )}
         {!loading && list.length === 0 && <Empty description="暂无数据" />}
         {/* 问卷列表 */}
-        {!loading &&
-          list.length > 0 &&
+        {list.length > 0 &&
           list.map((q) => {
             const { _id } = q
             return <QuestionCard key={_id} {...q} />
