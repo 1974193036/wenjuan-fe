@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react'
 import styles from './QuestionCard.module.scss'
 import { useNavigate, Link } from 'react-router-dom'
-import { Button, Space, Divider, Tag, Popconfirm, Modal } from 'antd'
+import { Button, Space, Divider, Tag, Popconfirm, Modal, message } from 'antd'
 import {
   EditOutlined,
   LineChartOutlined,
@@ -10,6 +10,8 @@ import {
   DeleteOutlined,
   ExclamationCircleOutlined
 } from '@ant-design/icons'
+import { useRequest } from 'ahooks'
+import { duplicateQuestionService, updateQuestionService } from '@/services/question'
 
 type PropsType = {
   _id: string
@@ -32,14 +34,32 @@ const QuestionCard: FC<PropsType> = (props) => {
   const [isStarState, setIsStarState] = useState(isStar)
 
   // 复制
-  const duplicate = () => {
-    alert(_id)
+  // Popconfirm组件：async函数可以基于promise的异步关闭效果，所以未使用useRequest
+  const duplicate = async () => {
+    try {
+      const res = await duplicateQuestionService(_id)
+      message.success('已复制')
+      nav(`/question/edit/${res.id}`)
+    } catch (e) {
+      /* empty */
+    }
   }
 
   // 标星/取消标星
-  const changeStar = () => {
-    setIsStarState(!isStarState) // 更新 state
-  }
+  // 这里使用了useRequest，主要便捷的处理了下loading状态
+  const { loading: changeStarLoading, run: changeStar } = useRequest(
+    async () => {
+      const data = await updateQuestionService(_id, { isStar: !isStarState })
+      return data
+    },
+    {
+      manual: true,
+      onSuccess() {
+        setIsStarState(!isStarState)
+        message.success('已更新')
+      }
+    }
+  )
 
   const del = () => {
     confirm({
@@ -50,9 +70,20 @@ const QuestionCard: FC<PropsType> = (props) => {
   }
 
   // 删除
-  const deleteQuestion = () => {
-    alert(_id)
+  // Modal.confirm组件：async函数可以基于promise的异步关闭效果，所以未使用useRequest
+  const [isDeletedState, setIsDeletedState] = useState(false)
+  const deleteQuestion = async () => {
+    try {
+      await updateQuestionService(_id, { isDeleted: true })
+      message.success('已删除')
+      setIsDeletedState(true)
+    } catch (e) {
+      /* empty */
+    }
   }
+
+  // 已经删除的问卷，不要再渲染卡片了
+  if (isDeletedState) return null
 
   return (
     <div className={styles.container}>
@@ -98,7 +129,13 @@ const QuestionCard: FC<PropsType> = (props) => {
         </div>
         <div className={styles.right}>
           <Space>
-            <Button type="text" icon={<StarOutlined />} size="small" onClick={changeStar}>
+            <Button
+              type="text"
+              icon={<StarOutlined />}
+              size="small"
+              disabled={changeStarLoading}
+              onClick={changeStar}
+            >
               {isStarState ? '取消标星' : '标星'}
             </Button>
             <Popconfirm

@@ -1,11 +1,12 @@
-import { useTitle } from 'ahooks'
+import { useRequest, useTitle } from 'ahooks'
 import React, { FC, useState } from 'react'
 import styles from './common.module.scss'
-import { Typography, Spin, Empty, Button, Space, Table, Tag, Modal } from 'antd'
+import { Typography, Spin, Empty, Button, Space, Table, Tag, Modal, message } from 'antd'
 import ListSearch from '@/components/ListSearch'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { useLoadQuestionListData } from '@/hooks/useLoadQuestionListData'
 import ListPagination from '@/components/ListPagination'
+import { deleteQuestionsService, updateQuestionService } from '@/services/question'
 const { Title } = Typography
 const { confirm } = Modal
 
@@ -23,7 +24,7 @@ const Trash: FC = () => {
   useTitle('小慕问卷 - 回收站')
 
   // 改造成useRequest
-  const { loading, data } = useLoadQuestionListData({ isDeleted: true })
+  const { loading, data, refresh } = useLoadQuestionListData({ isDeleted: true })
 
   let list: ListItemType[] = []
   let total = 0
@@ -44,20 +45,36 @@ const Trash: FC = () => {
     })
   }
 
+  // Modal.confirm组件：async函数可以基于promise的异步关闭效果，所以未使用useRequest
   const deleteQuestion = async () => {
-    console.log(selectedIds)
-    setSelectedIds([])
-    await new Promise((r) => {
-      setTimeout(() => {
-        r(1)
-      }, 4000)
-    })
+    try {
+      await deleteQuestionsService(selectedIds)
+      message.success('删除成功')
+      refresh()
+      setSelectedIds([])
+    } catch (e) {
+      /* empty */
+    }
   }
 
-  const recover = () => {
-    console.log(selectedIds)
-    setSelectedIds([])
-  }
+  // 恢复
+  // 这里使用了useRequest，主要便捷的处理了下loading状态
+  const { loading: recoverLoading, run: recover } = useRequest(
+    async () => {
+      for (const id of selectedIds) {
+        await updateQuestionService(id, { isDeleted: false })
+      }
+    },
+    {
+      manual: true,
+      // debounceWait: 500, // 防抖
+      onSuccess() {
+        message.success('恢复成功')
+        refresh()
+        setSelectedIds([])
+      }
+    }
+  )
 
   const tableColumns = [
     {
@@ -87,7 +104,12 @@ const Trash: FC = () => {
     <>
       <div style={{ marginBottom: '16px' }}>
         <Space>
-          <Button type="primary" disabled={selectedIds.length === 0} onClick={recover}>
+          <Button
+            type="primary"
+            disabled={selectedIds.length === 0}
+            loading={recoverLoading}
+            onClick={recover}
+          >
             恢复
           </Button>
           <Button danger disabled={selectedIds.length === 0} onClick={del}>
@@ -132,7 +154,7 @@ const Trash: FC = () => {
           </div>
         )}
         {!loading && list.length === 0 && <Empty description="暂无数据" />}
-        {list.length > 0 && TableElem()}
+        {list.length > 0 && <TableElem />}
       </div>
       <div className={styles.footer}>
         <ListPagination total={total} />

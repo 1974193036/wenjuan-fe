@@ -19,7 +19,7 @@ export function useLoadQuestionListData(opt: Partial<OptionType> = {}) {
 
   const { isStar, isDeleted } = opt
 
-  const { loading, data } = useRequest(
+  const { loading, data, error, refresh } = useRequest(
     async () => {
       const keyword = usp.get(LIST_SEARCH_PARAM_KEY) || ''
       const page = parseInt(usp.get(LIST_PAGE_PARAM_KEY) || '') || 1
@@ -35,6 +35,8 @@ export function useLoadQuestionListData(opt: Partial<OptionType> = {}) {
 
   return {
     loading,
-    data
+    data,
+    error,
+    refresh
   }
 }

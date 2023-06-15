@@ -69,7 +69,7 @@ const List: FC = () => {
       const { bottom } = domRect
       // isStarted: 加锁，已经开始加载了（加载中），再次上滑的时候，不再继续请求后台
       if (bottom < document.body.clientHeight && !isStarted) {
-        console.log('滚动到底部了，...tryLoadMore...')
+        // console.log('滚动到底部了，...tryLoadMore...')
         setIsStarted(true)
         load()
       }
@@ -96,7 +96,7 @@ const List: FC = () => {
       window.addEventListener('scroll', tryLoadMore)
     }
     return () => {
-      console.log('销毁scroll事件，这里很重要')
+      // console.log('销毁scroll事件，这里很重要')
       window.removeEventListener('scroll', tryLoadMore)
     }
   }, [usp, haveMoreData])

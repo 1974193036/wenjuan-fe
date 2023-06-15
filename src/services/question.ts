@@ -9,7 +9,7 @@ type SearchOption = {
 }
 
 // 获取单个问卷信息
-export async function getQuestionService(id: string) {
+export function getQuestionService(id: string) {
   return request<{
     id: string
     title: string
@@ -26,7 +26,7 @@ export async function getQuestionService(id: string) {
 }
 
 // 创建问卷
-export async function createQuestionService() {
+export function createQuestionService() {
   return request<{
     id: string
   }>({
@@ -36,7 +36,7 @@ export async function createQuestionService() {
 }
 
 // 获取（查询）问卷列表
-export async function getQuestionListService(opt: Partial<SearchOption> = {}) {
+export function getQuestionListService(opt: Partial<SearchOption> = {}) {
   return request<{
     list: {
       _id: string
@@ -52,5 +52,31 @@ export async function getQuestionListService(opt: Partial<SearchOption> = {}) {
     url: '/api/question',
     method: 'get',
     params: opt
+  })
+}
+
+// 更新单个问卷
+export function updateQuestionService(id: string, opt: { [key: string]: any }) {
+  return request({
+    url: `/api/question/${id}`,
+    method: 'patch',
+    params: opt
+  })
+}
+
+// 复制问卷
+export function duplicateQuestionService(id: string) {
+  return request<{ id: string }>({
+    url: `/api/question/duplicate/${id}`,
+    method: 'post'
+  })
+}
+
+// 批量彻底删除
+export async function deleteQuestionsService(ids: string[]) {
+  return request({
+    url: '/api/question',
+    method: 'delete',
+    data: ids
   })
 }
