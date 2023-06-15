@@ -16,6 +16,7 @@ const ListPagination: FC<PropsType> = (props) => {
   const [current, setCurrent] = useState(1)
   const [pageSize, setPageSize] = useState(LIST_PAGE_SIZE)
 
+  // 从url参数中获取到 page pageSize，同步到 Pagination
   useEffect(() => {
     const page = parseInt(usp.get(LIST_PAGE_PARAM_KEY) || '') || 1
     const pageSize = parseInt(usp.get(LIST_PAGE_SIZE_PARAM_KEY) || '') || LIST_PAGE_SIZE
@@ -23,12 +24,13 @@ const ListPagination: FC<PropsType> = (props) => {
     setPageSize(pageSize)
   }, [usp])
 
+  // 当 page pageSize 改变时，跳转页面，改变url参数
   const handleChangePage = (page: number, pageSize: number) => {
     usp.set(LIST_PAGE_PARAM_KEY, page.toString())
     usp.set(LIST_PAGE_SIZE_PARAM_KEY, pageSize.toString())
     nav({
       pathname,
-      search: usp.toString()
+      search: usp.toString() // 除了改变 page pageSize，其他的url参数不变
     })
   }
 

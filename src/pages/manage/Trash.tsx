@@ -83,7 +83,7 @@ const Trash: FC = () => {
   ]
 
   // 可以把 JSX 片段定义为一个变量
-  const TableElem = (
+  const TableElem = () => (
     <>
       <div style={{ marginBottom: '16px' }}>
         <Space>
@@ -132,7 +132,7 @@ const Trash: FC = () => {
           </div>
         )}
         {!loading && list.length === 0 && <Empty description="暂无数据" />}
-        {list.length > 0 && TableElem}
+        {list.length > 0 && TableElem()}
       </div>
       <div className={styles.footer}>
         <ListPagination total={total} />
