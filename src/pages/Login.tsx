@@ -1,10 +1,12 @@
 import React, { FC, useEffect } from 'react'
-import { useTitle } from 'ahooks'
+import { useRequest, useTitle } from 'ahooks'
 import styles from './Login.module.scss'
 import { Typography, Space, Form, Input, Button, Checkbox, message } from 'antd'
 import { UserAddOutlined } from '@ant-design/icons'
 import { MANAGE_INDEX_PATHNAME, REGISTER_PATHNAME } from '../router'
 import { Link, useNavigate } from 'react-router-dom'
+import { loginService } from '@/services/user'
+import { setToken } from '@/utils/user-token'
 
 const { Title } = Typography
 
@@ -45,22 +47,35 @@ const Register: FC = () => {
     form.setFieldsValue({ username, password })
   }, [])
 
-  const onFinish = (values: FormValues) => {
-    console.log(values)
-    // 登录成功，跳转到列表页
-    message.success('登录成功')
-    nav({
-      pathname: MANAGE_INDEX_PATHNAME
-    })
-
-    // 记住密码
-    const { username, password, remember } = values || {}
-    if (remember) {
-      rememberUser(username, password)
-    } else {
-      deleteUserFromStorage()
+  const { loading, run: onFinish } = useRequest(
+    async (values: FormValues) => {
+      const { username, password } = values
+      const data = await loginService({ username, password })
+      return {
+        token: data.token,
+        formValues: values
+      }
+    },
+    {
+      manual: true,
+      onSuccess(res) {
+        const { formValues, token = '' } = res
+        message.success('登录成功')
+        // 存储token
+        setToken(token)
+        nav({
+          pathname: MANAGE_INDEX_PATHNAME
+        })
+        // 记住密码
+        const { username, password, remember } = formValues || {}
+        if (remember) {
+          rememberUser(username, password)
+        } else {
+          deleteUserFromStorage()
+        }
+      }
     }
-  }
+  )
 
   return (
     <div className={styles.container}>
@@ -104,7 +119,7 @@ const Register: FC = () => {
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
             <Space>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" loading={loading}>
                 登录
               </Button>
               <Link to={REGISTER_PATHNAME}>注册新用户</Link>

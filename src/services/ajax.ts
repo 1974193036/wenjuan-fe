@@ -1,3 +1,4 @@
+import { getToken } from '@/utils/user-token'
 import { message } from 'antd'
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
@@ -13,7 +14,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    // config.headers['Authorization'] = `Bearer ${getToken()}` // JWT 的固定格式
+    config.headers['Authorization'] = `Bearer ${getToken()}` // JWT 的固定格式
     return config
   },
   (error) => Promise.reject(error)

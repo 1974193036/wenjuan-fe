@@ -73,7 +73,7 @@ export function duplicateQuestionService(id: string) {
 }
 
 // 批量彻底删除
-export async function deleteQuestionsService(ids: string[]) {
+export function deleteQuestionsService(ids: string[]) {
   return request({
     url: '/api/question',
     method: 'delete',

@@ -1,10 +1,11 @@
 import React, { FC } from 'react'
-import { useTitle } from 'ahooks'
+import { useRequest, useTitle } from 'ahooks'
 import styles from './Register.module.scss'
 import { Typography, Space, Form, Input, Button, message } from 'antd'
 import { UserAddOutlined } from '@ant-design/icons'
 import { LOGIN_PATHNAME } from '../router'
 import { Link, useNavigate } from 'react-router-dom'
+import { registerService } from '@/services/user'
 
 const { Title } = Typography
 
@@ -12,21 +13,28 @@ type FormValues = {
   username: string
   password: string
   confirm: string
-  nickname: string
+  nickname?: string
 }
 
 const Register: FC = () => {
   useTitle('小慕问卷 - 注册')
   const nav = useNavigate()
 
-  const onFinish = (values: FormValues) => {
-    console.log(values)
-    // 注册成功，跳转到登录页面
-    message.success('注册成功，去登录')
-    nav({
-      pathname: LOGIN_PATHNAME
-    })
-  }
+  const { loading, run: onFinish } = useRequest(
+    async (values: FormValues) => {
+      const { username, password, nickname } = values
+      await registerService({ username, password, nickname })
+    },
+    {
+      manual: true,
+      onSuccess() {
+        message.success('注册成功，去登录')
+        nav({
+          pathname: LOGIN_PATHNAME
+        })
+      }
+    }
+  )
 
   return (
     <div className={styles.container}>
@@ -83,7 +91,7 @@ const Register: FC = () => {
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
             <Space>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" loading={loading}>
                 注册
               </Button>
               <Link to={LOGIN_PATHNAME}>已有账户，登录</Link>
