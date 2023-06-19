@@ -1,12 +1,14 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { useRequest, useTitle } from 'ahooks'
 import styles from './Login.module.scss'
 import { Typography, Space, Form, Input, Button, Checkbox, message } from 'antd'
 import { UserAddOutlined } from '@ant-design/icons'
 import { MANAGE_INDEX_PATHNAME, REGISTER_PATHNAME } from '../router'
 import { Link, useNavigate } from 'react-router-dom'
-import { loginService } from '@/services/user'
-import { setToken } from '@/utils/user-token'
+import { getUserInfoService, loginService } from '@/services/user'
+import { setToken as setStorageToken } from '@/utils/user-token'
+import { useDispatch } from 'react-redux'
+import { loginReducer } from '@/store/userReducer'
 
 const { Title } = Typography
 
@@ -36,7 +38,7 @@ function getUserInfoFromStorage() {
   }
 }
 
-const Register: FC = () => {
+const Login: FC = () => {
   useTitle('小慕问卷 - 登录')
   const nav = useNavigate()
 
@@ -46,6 +48,8 @@ const Register: FC = () => {
     const { username = '', password = '' } = getUserInfoFromStorage()
     form.setFieldsValue({ username, password })
   }, [])
+
+  const dispatch = useDispatch()
 
   const { loading, run: onFinish } = useRequest(
     async (values: FormValues) => {
@@ -58,14 +62,25 @@ const Register: FC = () => {
     },
     {
       manual: true,
-      onSuccess(res) {
+      async onSuccess(res) {
         const { formValues, token = '' } = res
         message.success('登录成功')
         // 存储token
-        setToken(token)
+        setStorageToken(token)
         nav({
           pathname: MANAGE_INDEX_PATHNAME
         })
+
+        // 登录后同步用户信息到redux中
+        try {
+          const data = await getUserInfoService()
+          const { username, nickname } = data
+          // 把用户信息存储到redux中
+          dispatch(loginReducer({ username, nickname }))
+        } finally {
+          /* empty */
+        }
+
         // 记住密码
         const { username, password, remember } = formValues || {}
         if (remember) {
@@ -131,4 +146,4 @@ const Register: FC = () => {
   )
 }
 
-export default Register
+export default Login

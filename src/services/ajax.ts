@@ -1,6 +1,8 @@
+import { isLoginOrRegister } from '@/router'
 import { getToken } from '@/utils/user-token'
 import { message } from 'antd'
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { useLocation } from 'react-router-dom'
 
 type ResDataType<T = any> = {
   errno: number
@@ -11,6 +13,15 @@ type ResDataType<T = any> = {
 const instance = axios.create({
   timeout: 10 * 1000
 })
+
+function isNeedErrorMsg(url: string | undefined) {
+  const pathname = window.location.pathname
+  if (isLoginOrRegister(pathname) && url === '/api/user/info') {
+    // 如果在登录或者注册页面，并且调用获取用户信息的接口，是不需要错误提示语
+    return false
+  }
+  return true
+}
 
 instance.interceptors.request.use(
   (config) => {
@@ -30,6 +41,9 @@ instance.interceptors.response.use(
     }
 
     if (msg) {
+      // if (isNeedErrorMsg(response.config.url)) {
+      //   message.error(msg)
+      // }
       message.error(msg)
     }
 
