@@ -18,7 +18,7 @@ export function getQuestionService(id: string) {
     css: string
     isDeleted: boolean
     isPublished: boolean
-    [k: string]: any
+    componentList: { fe_id: string; title: string; type: string; props: { [k: string]: any } }[]
   }>({
     url: `/api/question/${id}`,
     method: 'get'

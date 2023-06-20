@@ -7,7 +7,7 @@ import { useLoadQuestionData } from '@/hooks/useLoadQuestionData'
 const Edit: FC = () => {
   useTitle('问卷统计')
 
-  const { id, loading, data } = useLoadQuestionData()
+  const { loading, error } = useLoadQuestionData()
 
   // const { id = '' } = useParams()
 
@@ -29,8 +29,8 @@ const Edit: FC = () => {
 
   return (
     <div>
-      <p>Stat -- {id}</p>
-      {loading ? <p>loading</p> : <p>{JSON.stringify(data)}</p>}
+      {/* <p>Stat -- {id}</p>
+      {loading ? <p>loading</p> : <p>{JSON.stringify(data)}</p>} */}
     </div>
   )
 }

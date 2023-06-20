@@ -9,20 +9,17 @@ const QuestionLayout: FC = () => {
   useNavPage(waitingUserInfo)
 
   return (
-    <>
-      <h1>QuestionLayout</h1>
-      <div>
-        <Suspense fallback={<h1>正在加载中...</h1>}>
-          {waitingUserInfo ? (
-            <div style={{ textAlign: 'center', marginTop: '60px' }}>
-              <Spin></Spin>
-            </div>
-          ) : (
-            <Outlet />
-          )}
-        </Suspense>
-      </div>
-    </>
+    <div>
+      <Suspense fallback={<h1>正在加载中...</h1>}>
+        {waitingUserInfo ? (
+          <div style={{ textAlign: 'center', marginTop: '60px' }}>
+            <Spin></Spin>
+          </div>
+        ) : (
+          <Outlet />
+        )}
+      </Suspense>
+    </div>
   )
 }
 
