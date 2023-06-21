@@ -8,6 +8,7 @@ import EditCanvas from './EditCanvas'
 import LeftPanel from './LeftPanel'
 import { useDispatch } from 'react-redux'
 import { changeSelectedId } from '@/store/componentsReducer'
+import EditHeader from './EditHeader'
 
 const Edit: FC = () => {
   useTitle('问卷编辑')
@@ -22,7 +23,7 @@ const Edit: FC = () => {
 
   return (
     <div className={styles.container}>
-      <div style={{ backgroundColor: '#fff' }}>Header</div>
+      <EditHeader />
       <div className={styles['content-wrapper']}>
         <div className={styles.content}>
           <div className={styles.left}>
