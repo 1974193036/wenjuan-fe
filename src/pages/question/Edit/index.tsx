@@ -1,11 +1,10 @@
-// import { getQuestionService } from '@/services/question'
 import { useTitle } from 'ahooks'
 import React, { FC } from 'react'
-// import { useParams } from 'react-router-dom'
 import { useLoadQuestionData } from '@/hooks/useLoadQuestionData'
 import styles from './index.module.scss'
 import EditCanvas from './EditCanvas'
 import LeftPanel from './LeftPanel'
+import RightPanel from './RightPanel'
 import { useDispatch } from 'react-redux'
 import { changeSelectedId } from '@/store/componentsReducer'
 import EditHeader from './EditHeader'
@@ -34,7 +33,9 @@ const Edit: FC = () => {
               <EditCanvas loading={loading} />
             </div>
           </div>
-          <div className={styles.right}>Right</div>
+          <div className={styles.right}>
+            <RightPanel />
+          </div>
         </div>
       </div>
     </div>

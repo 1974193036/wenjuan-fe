@@ -11,7 +11,9 @@ const QuestionTitle: FC<QuestionTitlePropsType> = (props) => {
     if (level === 1) return '24px'
     if (level === 2) return '20px'
     if (level === 3) return '16px'
-    return '16px'
+    if (level === 4) return '14px'
+    if (level === 5) return '12px'
+    return '12px'
   }
 
   return (

@@ -5,7 +5,7 @@ import ComponentLib from './ComponentLib'
 import Layers from './Layers'
 
 const LeftPanel: FC = () => {
-  const tabsItem = [
+  const tabsItems = [
     {
       key: 'componentLib',
       label: (
@@ -21,13 +21,13 @@ const LeftPanel: FC = () => {
       label: (
         <span>
           <BarsOutlined />
-          涂层
+          图层
         </span>
       ),
       children: <Layers />
     }
   ]
-  return <Tabs defaultActiveKey="componentLib" items={tabsItem} />
+  return <Tabs defaultActiveKey="componentLib" items={tabsItems} />
 }
 
 export default LeftPanel

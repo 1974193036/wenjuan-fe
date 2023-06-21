@@ -6,8 +6,11 @@ export function useGetComponentInfo() {
 
   const { componentList = [], selectedId } = comp
 
+  const selectedComponent = componentList.find((item) => item.fe_id === selectedId)
+
   return {
     componentList,
-    selectedId
+    selectedId,
+    selectedComponent
   }
 }

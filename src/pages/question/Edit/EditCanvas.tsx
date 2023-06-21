@@ -28,8 +28,8 @@ const EditCanvas: FC<PropsType> = (props) => {
     )
   }
 
-  const { componentList, selectedId } = useGetComponentInfo()
-  console.log(componentList, selectedId)
+  const { componentList, selectedId, selectedComponent } = useGetComponentInfo()
+  console.log(componentList, selectedId, selectedComponent)
 
   const dispatch = useDispatch()
 
