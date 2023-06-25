@@ -28,7 +28,7 @@ const Edit: FC = () => {
           <div className={styles.left}>
             <LeftPanel />
           </div>
-          <div className={styles.main} onClick={clearSelectedId}>
+          <div id="main-canvas" className={styles.main} onClick={clearSelectedId}>
             <div className={styles['canvas-wrapper']}>
               <EditCanvas loading={loading} />
             </div>

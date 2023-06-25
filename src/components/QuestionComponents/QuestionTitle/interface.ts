@@ -3,6 +3,7 @@ export type QuestionTitlePropsType = {
   level?: 1 | 2 | 3 | 4 | 5
   isCenter?: boolean
 
+  // 用于 PropComponent 属性表单组件
   onChange?: (newProps: QuestionTitlePropsType) => void
   disabled?: boolean
 }

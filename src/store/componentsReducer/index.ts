@@ -84,6 +84,8 @@ const componentSlice = createSlice({
     removeSelectedComponent: produce((draft: ComponentsStateType) => {
       const { componentList, selectedId: removeId } = draft
 
+      if (!removeId) return
+
       // 重新计算selectedId
       const newSelectedId = getNextSelectedId(removeId, componentList)
       draft.selectedId = newSelectedId
@@ -141,6 +143,24 @@ const componentSlice = createSlice({
 
       // 插入新组件
       insertNewComponent(draft, copiedComponent)
+    }),
+    // 选中上一个
+    selectPrevComponent: produce((draft: ComponentsStateType) => {
+      const { componentList = [], selectedId } = draft
+      const index = componentList.findIndex((item) => item.fe_id === selectedId)
+      if (index < 0) return // 此时未选中组件
+      if (index <= 0) return // 已经选中了第一个，无法向上选中
+
+      draft.selectedId = componentList[index - 1].fe_id
+    }),
+    // 选中下一个
+    selectNextComponent: produce((draft: ComponentsStateType) => {
+      const { componentList = [], selectedId } = draft
+      const index = componentList.findIndex((item) => item.fe_id === selectedId)
+      if (index < 0) return // 此时未选中组件
+      if (index + 1 === componentList.length) return // 已经选中了最后一个，无法继续向下选中
+
+      draft.selectedId = componentList[index + 1].fe_id
     })
   }
 })
@@ -154,7 +174,9 @@ export const {
   changeComponentHidden,
   toggleComponentLocked,
   copySelectedComponent,
-  pasteCopiedComponent
+  pasteCopiedComponent,
+  selectPrevComponent,
+  selectNextComponent
 } = componentSlice.actions
 
 export default componentSlice.reducer
