@@ -12,7 +12,7 @@ const Component: FC<QuestionInfoPropsType> = (props: QuestionInfoPropsType) => {
   return (
     <div style={{ textAlign: 'center' }}>
       <Title style={{ fontSize: '24px' }}>{title}</Title>
-      <Paragraph>
+      <Paragraph style={{ marginBottom: '0.4em' }}>
         {descTextList.map((t, index) => (
           <span key={index}>
             {index > 0 && <br />}
