@@ -24,12 +24,12 @@ const ComponentProp: FC = () => {
   }
 
   // 从组件列表中筛选出对应的组件项
-  const { type, props } = selectedComponent
+  const { type, props, isHidden, isLocked } = selectedComponent
   const compConf = getComponentConfByType(type)
   if (compConf == undefined || compConf == null) return <NoProp />
   const { PropComponent } = compConf
 
-  return <PropComponent {...props} onChange={changeProps} />
+  return <PropComponent {...props} onChange={changeProps} disabled={isLocked || isHidden} />
 }
 
 export default ComponentProp

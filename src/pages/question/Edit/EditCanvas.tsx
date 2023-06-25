@@ -40,20 +40,23 @@ const EditCanvas: FC<PropsType> = (props) => {
 
   return (
     <div className={styles.canvas}>
-      {componentList.map((item) => {
-        const { fe_id } = item
+      {componentList
+        .filter((item) => !item.isHidden)
+        .map((item) => {
+          const { fe_id, isLocked } = item
 
-        const wrapperClassName = classNames({
-          [styles['component-wrapper']]: true,
-          [styles.selected]: selectedId === fe_id
-        })
+          const wrapperClassName = classNames({
+            [styles['component-wrapper']]: true,
+            [styles.selected]: selectedId === fe_id,
+            [styles.locked]: isLocked
+          })
 
-        return (
-          <div key={fe_id} className={wrapperClassName} onClick={(e) => handleClick(e, fe_id)}>
-            <div className={styles.component}>{getComponent(item)}</div>
-          </div>
-        )
-      })}
+          return (
+            <div key={fe_id} className={wrapperClassName} onClick={(e) => handleClick(e, fe_id)}>
+              <div className={styles.component}>{getComponent(item)}</div>
+            </div>
+          )
+        })}
       {/* <div className={styles['component-wrapper']}>
         <div className={styles.component}>
           <QuestionTitle text={'一行标题哈哈哈'} level={2} isCenter={true} />
