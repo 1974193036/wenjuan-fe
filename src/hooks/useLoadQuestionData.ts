@@ -1,5 +1,6 @@
 import { getQuestionService } from '@/services/question'
 import { resetComponents } from '@/store/componentsReducer'
+import { resetPageInfo } from '@/store/pageInfoReducer'
 import { useRequest } from 'ahooks'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
@@ -26,12 +27,16 @@ export function useLoadQuestionData() {
   // 根据获取的data，设置redux
   useEffect(() => {
     if (!data) return
-    const { componentList = [] } = data
+    const { componentList = [], title = '', desc = '', js = '', css = '' } = data
     let selectedId = ''
     if (componentList.length > 0) {
       selectedId = componentList[0].fe_id
     }
+    // 把 componentList 存储到 redux 中
     dispatch(resetComponents({ componentList, selectedId, copiedComponent: null }))
+
+    // 把 pageInfo 存储到 redux 中
+    dispatch(resetPageInfo({ title, desc, js, css }))
   }, [data])
 
   // 根据id变化，执行请求
