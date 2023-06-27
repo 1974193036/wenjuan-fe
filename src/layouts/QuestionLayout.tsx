@@ -4,21 +4,21 @@ import { Spin } from 'antd'
 import React, { FC, Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
 
+const Loading = () => {
+  return (
+    <div style={{ textAlign: 'center', marginTop: '60px' }}>
+      <Spin></Spin>
+    </div>
+  )
+}
+
 const QuestionLayout: FC = () => {
   const { waitingUserInfo } = useLoadUserInfo()
   useNavPage(waitingUserInfo)
 
   return (
     <div>
-      <Suspense fallback={<h1>正在加载中...</h1>}>
-        {waitingUserInfo ? (
-          <div style={{ textAlign: 'center', marginTop: '60px' }}>
-            <Spin></Spin>
-          </div>
-        ) : (
-          <Outlet />
-        )}
-      </Suspense>
+      <Suspense fallback={<Loading />}>{waitingUserInfo ? <Loading /> : <Outlet />}</Suspense>
     </div>
   )
 }

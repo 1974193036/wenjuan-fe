@@ -29,6 +29,7 @@ const Edit: FC = () => {
 
   return (
     <div>
+      问卷统计
       {/* <p>Stat -- {id}</p>
       {loading ? <p>loading</p> : <p>{JSON.stringify(data)}</p>} */}
     </div>
