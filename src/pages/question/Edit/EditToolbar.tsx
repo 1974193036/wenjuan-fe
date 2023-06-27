@@ -3,14 +3,17 @@ import {
   BlockOutlined,
   CopyOutlined,
   DeleteOutlined,
+  DownOutlined,
   EyeInvisibleOutlined,
-  LockOutlined
+  LockOutlined,
+  UpOutlined
 } from '@ant-design/icons'
 import { Button, Space, Tooltip } from 'antd'
 import { useDispatch } from 'react-redux'
 import {
   changeComponentHidden,
   copySelectedComponent,
+  moveComponent,
   pasteCopiedComponent,
   removeSelectedComponent,
   toggleComponentLocked
@@ -19,8 +22,13 @@ import { useGetComponentInfo } from '@/hooks/useGetComponentInfo'
 
 const EditToolbar: FC = () => {
   const dispatch = useDispatch()
-  const { selectedId, selectedComponent, copiedComponent } = useGetComponentInfo()
+  const { selectedId, selectedComponent, copiedComponent, componentList } = useGetComponentInfo()
   const { isLocked } = selectedComponent || {}
+
+  const selectedIndex = componentList.findIndex((item) => item.fe_id === selectedId)
+  const length = componentList.length
+  const isFirst = selectedIndex <= 0 // 第一个
+  const isLast = selectedIndex + 1 >= length // 最后一个
 
   const handleDelete = () => {
     dispatch(removeSelectedComponent())
@@ -40,6 +48,18 @@ const EditToolbar: FC = () => {
 
   const paste = () => {
     dispatch(pasteCopiedComponent())
+  }
+
+  // 上移
+  const moveUp = () => {
+    if (isFirst) return
+    dispatch(moveComponent({ oldIndex: selectedIndex, newIndex: selectedIndex - 1 }))
+  }
+
+  // 下移
+  const moveDown = () => {
+    if (isLast) return
+    dispatch(moveComponent({ oldIndex: selectedIndex, newIndex: selectedIndex + 1 }))
   }
 
   return (
@@ -67,6 +87,17 @@ const EditToolbar: FC = () => {
           icon={<BlockOutlined />}
           disabled={copiedComponent == null}
           onClick={paste}
+        ></Button>
+      </Tooltip>
+      <Tooltip title="上移">
+        <Button shape="circle" icon={<UpOutlined />} onClick={moveUp} disabled={isFirst}></Button>
+      </Tooltip>
+      <Tooltip title="下移">
+        <Button
+          shape="circle"
+          icon={<DownOutlined />}
+          onClick={moveDown}
+          disabled={isLast}
         ></Button>
       </Tooltip>
     </Space>
