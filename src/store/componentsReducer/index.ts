@@ -4,6 +4,7 @@ import type { ComponentPropsType } from '@/components/QuestionComponents'
 import produce from 'immer'
 import { getNextSelectedId, insertNewComponent } from './utils'
 import { nanoid } from 'nanoid'
+import { arrayMove } from '@dnd-kit/sortable'
 
 // 后台返回的componentList的每一项的数据结构
 export type ComponentInfoType = {
@@ -171,6 +172,18 @@ const componentSlice = createSlice({
           curComp.title = title
         }
       }
+    ),
+    // 移动组件位置
+    moveComponent: produce(
+      (
+        draft: ComponentsStateType,
+        action: PayloadAction<{ oldIndex: number; newIndex: number }>
+      ) => {
+        const { componentList: curComponentList } = draft
+        const { oldIndex, newIndex } = action.payload
+        // 调用arrayMove返回一个改变位置后的新的数组
+        draft.componentList = arrayMove(curComponentList, oldIndex, newIndex)
+      }
     )
   }
 })
@@ -187,7 +200,8 @@ export const {
   pasteCopiedComponent,
   selectPrevComponent,
   selectNextComponent,
-  changeComponentTitle
+  changeComponentTitle,
+  moveComponent
 } = componentSlice.actions
 
 export default componentSlice.reducer
