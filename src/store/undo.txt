@@ -1,0 +1,41 @@
+// 模拟 输入框的输入的 撤销 重做
+
+present - 保存当前数据
+past (undo-stack) - 历史数据列表
+future (redo-stack) - 未来数据列表
+
+// 输入：past入栈（push），future清空内容
+// 输入框中输入 a
+present = 'a' // 存储当前输入框的值
+past = ['a'] // 记录数据的记录
+future = [] // 未来数据的记录
+
+// 输入框中继续输入 b
+present = 'ab' // 存储当前输入框的值
+past = ['a', 'ab'] // 记录数据的记录
+future = [] // 未来数据的记录
+
+// 输入框中继续输入 c
+present = 'abc' // 存储当前输入框的值
+past = ['a', 'ab', 'abc'] // 记录数据的记录
+future = [] // 未来数据的记录
+
+// 撤销一次：past出栈（pop），future入栈（push），present重新赋值
+present = 'ab'
+past = ['a', 'ab']
+future = ['abc']
+
+// 撤销二次：past出栈（pop），future入栈（push），present重新赋值
+present = 'a'
+past = ['a']
+future = ['abc', 'ab']
+
+// 重做一次：future出栈（pop），past入栈（push），present重新赋值
+present = 'ab'
+past = ['a', 'ab']
+future = ['abc']
+
+// 重做二次：future出栈（pop），past入栈（push），present重新赋值
+present = 'abc'
+past = ['a', 'ab', 'abc']
+future = []

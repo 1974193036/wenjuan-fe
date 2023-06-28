@@ -7,6 +7,7 @@ import {
 } from '@/store/componentsReducer'
 import { useKeyPress } from 'ahooks'
 import { useDispatch } from 'react-redux'
+import { ActionCreators as UndoActionCreators } from 'redux-undo'
 
 function isActiveElementValid() {
   const activeElem = document.activeElement
@@ -54,5 +55,21 @@ export function useBindCanvasKeyPress() {
     dispatch(selectNextComponent())
   })
 
-  // TODO 撤销重做
+  // 撤销
+  useKeyPress(
+    ['ctrl.z', 'meta.z'],
+    () => {
+      if (!isActiveElementValid()) return
+      dispatch(UndoActionCreators.undo())
+    },
+    {
+      exactMatch: true // 严格匹配，防止与ctrl.shift.z冲突
+    }
+  )
+
+  // 重做
+  useKeyPress(['ctrl.shift.z', 'meta.shift.z'], () => {
+    if (!isActiveElementValid()) return
+    dispatch(UndoActionCreators.redo())
+  })
 }
