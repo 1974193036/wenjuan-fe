@@ -3,29 +3,13 @@ import { useTitle } from 'ahooks'
 import React, { FC } from 'react'
 // import { useParams } from 'react-router-dom'
 import { useLoadQuestionData } from '@/hooks/useLoadQuestionData'
+import { useGetPageInfo } from '@/hooks/useGetPageInfo'
 
 const Edit: FC = () => {
-  useTitle('问卷统计')
-
   const { loading, error } = useLoadQuestionData()
 
-  // const { id = '' } = useParams()
-
-  // const [loading, setLoading] = useState(false)
-  // const [questionData, setQuestionData] = useState({})
-
-  // useEffect(() => {
-  //   ;(async () => {
-  //     try {
-  //       setLoading(true)
-  //       const data = await getQuestionService(id)
-  //       // console.log('edit page', data)
-  //       setQuestionData(data)
-  //     } finally {
-  //       setLoading(false)
-  //     }
-  //   })()
-  // }, [])
+  const { title } = useGetPageInfo()
+  useTitle(`问卷统计 - ${title}`)
 
   return (
     <div>

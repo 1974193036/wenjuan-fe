@@ -8,10 +8,10 @@ import RightPanel from './RightPanel'
 import { useDispatch } from 'react-redux'
 import { changeSelectedId } from '@/store/componentsReducer'
 import EditHeader from './EditHeader'
+import { useBindCanvasKeyPress } from '@/hooks/useBindCanvasKeyPress'
+import { useGetPageInfo } from '@/hooks/useGetPageInfo'
 
 const Edit: FC = () => {
-  useTitle('问卷编辑')
-
   const { loading } = useLoadQuestionData()
 
   const dispatch = useDispatch()
@@ -19,6 +19,11 @@ const Edit: FC = () => {
   const clearSelectedId = () => {
     dispatch(changeSelectedId(''))
   }
+
+  useBindCanvasKeyPress()
+
+  const { title } = useGetPageInfo()
+  useTitle(`问卷编辑 - ${title}`)
 
   return (
     <div className={styles.container}>

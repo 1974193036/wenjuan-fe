@@ -27,7 +27,14 @@ export function useLoadQuestionData() {
   // 根据获取的data，设置redux
   useEffect(() => {
     if (!data) return
-    const { componentList = [], title = '', desc = '', js = '', css = '' } = data
+    const {
+      componentList = [],
+      title = '',
+      desc = '',
+      js = '',
+      css = '',
+      isPublished = false
+    } = data
     let selectedId = ''
     if (componentList.length > 0) {
       selectedId = componentList[0].fe_id
@@ -36,7 +43,7 @@ export function useLoadQuestionData() {
     dispatch(resetComponents({ componentList, selectedId, copiedComponent: null }))
 
     // 把 pageInfo 存储到 redux 中
-    dispatch(resetPageInfo({ title, desc, js, css }))
+    dispatch(resetPageInfo({ title, desc, js, css, isPublished }))
   }, [data])
 
   // 根据id变化，执行请求

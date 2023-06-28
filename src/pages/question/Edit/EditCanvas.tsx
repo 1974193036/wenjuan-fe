@@ -6,7 +6,6 @@ import { ComponentInfoType, changeSelectedId, moveComponent } from '@/store/comp
 import { getComponentConfByType } from '@/components/QuestionComponents'
 import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
-import { useBindCanvasKeyPress } from '@/hooks/useBindCanvasKeyPress'
 import SortableContainer from '@/components/DragSortable/SortableContainer'
 import SortableItem from '@/components/DragSortable/SortableItem'
 
@@ -30,9 +29,6 @@ const EditCanvas: FC<PropsType> = (props) => {
       </div>
     )
   }
-
-  // 绑定快捷键
-  useBindCanvasKeyPress()
 
   const { componentList, selectedId, selectedComponent } = useGetComponentInfo()
   console.log(componentList, selectedId, selectedComponent)

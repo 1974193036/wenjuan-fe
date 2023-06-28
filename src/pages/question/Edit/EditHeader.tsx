@@ -58,10 +58,10 @@ const SaveButton: FC = () => {
       await updateQuestionService(id, { ...pageInfo, componentList })
     },
     {
-      manual: true,
-      onSuccess() {
-        message.success('保存成功')
-      }
+      manual: true
+      // onSuccess() {
+      //   message.success('保存成功')
+      // }
     }
   )
 
