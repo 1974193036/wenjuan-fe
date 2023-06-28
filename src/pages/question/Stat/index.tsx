@@ -4,20 +4,66 @@ import React, { FC } from 'react'
 // import { useParams } from 'react-router-dom'
 import { useLoadQuestionData } from '@/hooks/useLoadQuestionData'
 import { useGetPageInfo } from '@/hooks/useGetPageInfo'
+import { Button, Result, Spin } from 'antd'
+import { useNavigate } from 'react-router-dom'
+import styles from './index.module.scss'
 
-const Edit: FC = () => {
-  const { loading, error } = useLoadQuestionData()
+const Stat: FC = () => {
+  const nav = useNavigate()
 
-  const { title } = useGetPageInfo()
+  const { loading } = useLoadQuestionData()
+
+  const { title, isPublished } = useGetPageInfo()
   useTitle(`问卷统计 - ${title}`)
 
+  const LoadingElem = () => {
+    return (
+      <div style={{ textAlign: 'center', marginTop: '60px' }}>
+        <Spin></Spin>
+      </div>
+    )
+  }
+
+  const ContentElem = () => {
+    if (typeof isPublished === 'boolean' && !isPublished) {
+      return (
+        <div style={{ flex: '1' }}>
+          <Result
+            status="warning"
+            title="该页面尚未发布"
+            extra={
+              <Button type="primary" onClick={() => nav(-1)}>
+                返回
+              </Button>
+            }
+          ></Result>
+        </div>
+      )
+    }
+
+    return (
+      <>
+        <div className={styles.left}>left</div>
+        <div className={styles.main}>main</div>
+        <div className={styles.right}>right</div>
+      </>
+    )
+  }
+
   return (
-    <div>
-      问卷统计
-      {/* <p>Stat -- {id}</p>
-      {loading ? <p>loading</p> : <p>{JSON.stringify(data)}</p>} */}
+    <div className={styles.container}>
+      <div>头部</div>
+      <div className={styles['content-wrapper']}>
+        {loading ? (
+          <LoadingElem />
+        ) : (
+          <div className={styles.content}>
+            <ContentElem />
+          </div>
+        )}
+      </div>
     </div>
   )
 }
 
-export default Edit
+export default Stat

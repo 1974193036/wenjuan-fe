@@ -13,8 +13,7 @@ const INIT_STATE: PageInfoType = {
   title: '',
   desc: '',
   js: '',
-  css: '',
-  isPublished: false
+  css: ''
 }
 
 const pageInfolice = createSlice({
