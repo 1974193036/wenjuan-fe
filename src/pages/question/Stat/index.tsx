@@ -7,6 +7,7 @@ import { useGetPageInfo } from '@/hooks/useGetPageInfo'
 import { Button, Result, Spin } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import styles from './index.module.scss'
+import StatHeader from './StatHeader'
 
 const Stat: FC = () => {
   const nav = useNavigate()
@@ -52,7 +53,7 @@ const Stat: FC = () => {
 
   return (
     <div className={styles.container}>
-      <div>头部</div>
+      <StatHeader />
       <div className={styles['content-wrapper']}>
         {loading ? (
           <LoadingElem />
