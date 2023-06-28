@@ -1,6 +1,6 @@
 // import { getQuestionService } from '@/services/question'
 import { useTitle } from 'ahooks'
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 // import { useParams } from 'react-router-dom'
 import { useLoadQuestionData } from '@/hooks/useLoadQuestionData'
 import { useGetPageInfo } from '@/hooks/useGetPageInfo'
@@ -8,11 +8,18 @@ import { Button, Result, Spin } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import styles from './index.module.scss'
 import StatHeader from './StatHeader'
+import ComponentList from './ComponentList'
+import PageStat from './PageStat'
+import ChartStat from './ChartStat'
 
 const Stat: FC = () => {
   const nav = useNavigate()
 
   const { loading } = useLoadQuestionData()
+
+  // 状态提升 （left、main、right 三个组件都是平级的， 在它们的父组件中维护选中的组件ID和类型，不使用redux）
+  const [selectedComponentId, setSelectedComponentId] = useState('')
+  const [selectedComponentType, setSelectedComponentType] = useState('')
 
   const { title, isPublished } = useGetPageInfo()
   useTitle(`问卷统计 - ${title}`)
@@ -44,9 +51,26 @@ const Stat: FC = () => {
 
     return (
       <>
-        <div className={styles.left}>left</div>
-        <div className={styles.main}>main</div>
-        <div className={styles.right}>right</div>
+        <div className={styles.left}>
+          <ComponentList
+            selectedComponentId={selectedComponentId}
+            setSelectedComponentId={setSelectedComponentId}
+            setSelectedComponentType={setSelectedComponentType}
+          />
+        </div>
+        <div className={styles.main}>
+          <PageStat
+            selectedComponentId={selectedComponentId}
+            setSelectedComponentId={setSelectedComponentId}
+            setSelectedComponentType={setSelectedComponentType}
+          />
+        </div>
+        <div className={styles.right}>
+          <ChartStat
+            selectedComponentId={selectedComponentId}
+            selectedComponentType={selectedComponentType}
+          />
+        </div>
       </>
     )
   }
