@@ -1,11 +1,10 @@
-import React, { FC, memo, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { getQuestionStatListService } from '@/services/stat'
 import { useRequest } from 'ahooks'
 import { useParams } from 'react-router-dom'
 import { STAT_PAGE_SIZE } from '@/constant'
-import { Pagination, Spin, Table, Typography } from 'antd'
+import { Pagination, Table, Typography } from 'antd'
 import { useGetComponentInfo } from '@/hooks/useGetComponentInfo'
-import { flushSync } from 'react-dom'
 
 const { Title } = Typography
 
