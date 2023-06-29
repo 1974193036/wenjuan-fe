@@ -17,7 +17,7 @@ export function useLoadQuestionData() {
     async (id) => {
       if (!id) throw new Error('没有问卷id')
       const data = await getQuestionService(id)
-      return data
+      return data || {}
     },
     {
       manual: true
@@ -53,6 +53,7 @@ export function useLoadQuestionData() {
 
   return {
     loading,
-    error
+    error,
+    data
   }
 }

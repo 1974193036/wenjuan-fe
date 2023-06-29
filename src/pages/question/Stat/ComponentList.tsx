@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useGetComponentInfo } from '@/hooks/useGetComponentInfo'
 import { getComponentConfByType } from '@/components/QuestionComponents'
 import classNames from 'classnames'

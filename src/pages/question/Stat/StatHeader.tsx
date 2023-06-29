@@ -30,7 +30,7 @@ const StatHeader: FC = () => {
     const url = `http://localhost:3000/question/${id}`
 
     // 定义二维码组件
-    const QRCodeElem = () => (
+    const QRCodeElem = (
       <div style={{ textAlign: 'center' }}>
         <QRCode value={url} size={150} />
       </div>
@@ -42,7 +42,7 @@ const StatHeader: FC = () => {
         <Tooltip title="拷贝链接">
           <Button icon={<CopyOutlined />} onClick={copy}></Button>
         </Tooltip>
-        <Popover content={<QRCodeElem />}>
+        <Popover content={QRCodeElem}>
           <Button icon={<QrcodeOutlined />}></Button>
         </Popover>
       </Space>

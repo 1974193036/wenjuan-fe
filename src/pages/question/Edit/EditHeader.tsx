@@ -74,6 +74,7 @@ const SaveButton: FC = () => {
   // 自动保存
   useDebounceEffect(
     () => {
+      if (componentList && componentList.length === 0) return
       !loading && save()
     },
     [pageInfo, componentList],
