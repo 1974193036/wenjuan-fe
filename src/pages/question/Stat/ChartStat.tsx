@@ -3,8 +3,9 @@ import { useRequest } from 'ahooks'
 import React, { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Spin, Typography } from 'antd'
-import PieDemo from './PieDemo'
-import BarDemo from './BarDemo'
+import { getComponentConfByType } from '@/components/QuestionComponents'
+// import PieDemo from './PieDemo'
+// import BarDemo from './BarDemo'
 
 const { Title } = Typography
 
@@ -18,7 +19,7 @@ const ChartStat: FC<PropsType> = (props) => {
 
   const { id = '' } = useParams()
 
-  const [stat, setStat] = useState<{ [key: string]: any }[]>([])
+  const [stat, setStat] = useState<{ name: string; count: number }[]>([])
 
   const { loading, run } = useRequest(
     async (quesitonId, componentId) => {
@@ -42,7 +43,14 @@ const ChartStat: FC<PropsType> = (props) => {
   const genStatElem = () => {
     if (!selectedComponentId) return <div>未选中组件</div>
 
-    return <BarDemo />
+    const compConf = getComponentConfByType(selectedComponentType)
+
+    if (!compConf) return
+    const { StatComponent } = compConf
+
+    if (!StatComponent) return <div>该组件无统计图表</div>
+
+    return <StatComponent stat={stat} />
 
     // return <div>{JSON.stringify(stat)}</div>
   }

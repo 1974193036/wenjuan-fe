@@ -18,7 +18,7 @@ export function getQuestionStatListService(
 // 获取组件统计数据汇总
 export function getComponentStatService(questionId: string, componentId: string) {
   return request<{
-    stat: { [key: string]: any }[]
+    stat: { name: string; count: number }[]
   }>({
     url: `/api/stat/${questionId}/${componentId}`,
     method: 'get'

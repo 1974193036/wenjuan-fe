@@ -1,6 +1,6 @@
 // import { getQuestionService } from '@/services/question'
 import { useTitle } from 'ahooks'
-import React, { FC, useState, memo, useEffect, useCallback } from 'react'
+import React, { FC, useState } from 'react'
 // import { useParams } from 'react-router-dom'
 import { useLoadQuestionData } from '@/hooks/useLoadQuestionData'
 import { useGetPageInfo } from '@/hooks/useGetPageInfo'
