@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react'
+import React, { FC, useRef, useMemo } from 'react'
 import styles from './StatHeader.module.scss'
 import { Button, Input, InputRef, Popover, Space, Tooltip, Typography, message } from 'antd'
 import { CopyOutlined, LeftOutlined, QrcodeOutlined } from '@ant-design/icons'
@@ -23,7 +23,7 @@ const StatHeader: FC = () => {
     message.success('拷贝成功')
   }
 
-  const genLinkAndQRCodeElem = () => {
+  const LinkAndQRCodeElem = useMemo(() => {
     if (!isPublished) return null
 
     // 拼接 url ，需要参考 C 端的规则
@@ -47,7 +47,7 @@ const StatHeader: FC = () => {
         </Popover>
       </Space>
     )
-  }
+  }, [isPublished, id])
 
   return (
     <div className={styles['header-wrapper']}>
@@ -60,7 +60,7 @@ const StatHeader: FC = () => {
             <Title>{title}</Title>
           </Space>
         </div>
-        <div className={styles.main}>{genLinkAndQRCodeElem()}</div>
+        <div className={styles.main}>{LinkAndQRCodeElem}</div>
         <div className={styles.right}>
           <Button type="primary" onClick={() => nav(`/question/edit/${id}`)}>
             编辑问卷

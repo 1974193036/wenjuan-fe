@@ -1,5 +1,5 @@
 import { ComponentConfType, componentConfGroup } from '@/components/QuestionComponents'
-import React, { FC } from 'react'
+import React, { FC, useCallback } from 'react'
 import { nanoid } from 'nanoid'
 import { Typography } from 'antd'
 import styles from './ComponentLib.module.scss'
@@ -13,7 +13,7 @@ function genComponent(c: ComponentConfType, i: number) {
 
   const dispatch = useDispatch()
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     dispatch(
       addComponent({
         fe_id: nanoid(5),
@@ -22,7 +22,7 @@ function genComponent(c: ComponentConfType, i: number) {
         props: defaultProps
       })
     )
-  }
+  }, [])
 
   return (
     <div className={styles.wrapper} key={i} onClick={handleClick}>

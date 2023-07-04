@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Button } from 'antd'
 import styles from './Home.module.scss'
-import { Divider, Typography } from 'antd'
+import { Typography } from 'antd'
 const { Title, Paragraph } = Typography
 import { MANAGE_INDEX_PATHNAME } from '../router'
 
