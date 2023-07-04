@@ -40,7 +40,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "test": "craco test",
+    "test": "craco test --watchAll=false",
     "eject": "react-scripts eject",
     "lint": "eslint \"./src/**/*.{js,jsx,ts,tsx}\" --fix",
     "prepare": "husky install",
@@ -97,6 +97,7 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "npm run lint",
+      "npm run test",
       "git add"
     ]
   }

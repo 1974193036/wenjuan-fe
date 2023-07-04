@@ -7,7 +7,7 @@ export type QuestionRadioPropsType = {
   title?: string
   isVertical?: boolean
   options?: OptionType[]
-  value?: ''
+  value?: string
 
   // 用于 PropComponent 属性表单组件
   onChange?: (newProps: QuestionRadioPropsType) => void
