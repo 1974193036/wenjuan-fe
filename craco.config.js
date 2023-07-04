@@ -4,7 +4,6 @@ const path = require('path')
 const appDirectory = realpathSync(process.cwd())
 const resolveApp = (_path) => path.resolve(appDirectory, _path)
 
-console.log(resolveApp('src'))
 module.exports = {
   devServer: {
     port: 8000,
@@ -14,7 +13,7 @@ module.exports = {
   },
   webpack: {
     configure(webpackConfig) {
-      console.log('=========', webpackConfig.mode)
+      // console.log('=========', webpackConfig.mode)
       if (webpackConfig.mode === 'production') {
         // 抽离公共代码，只在生产环境
         if (webpackConfig.optimization == null) {
